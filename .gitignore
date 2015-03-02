@@ -1,0 +1,5 @@
+campus_mapper_server/settings_local.py
+campus_mapper_server/settings_local*
+*pyc
+*.egg-info
+.idea/*
