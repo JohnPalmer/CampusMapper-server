@@ -3,3 +3,5 @@ campus_mapper_server/settings_local*
 *pyc
 *.egg-info
 .idea/*
+
+db.sqlite3
