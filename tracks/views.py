@@ -44,6 +44,6 @@ class DataPointViewSet(ReadWriteOnlyModelViewSet):
 
 
 def show_user_code(request):
-    this_code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
+    this_code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(7))
     context = {'this_code': this_code}
     return render(request, 'tracks/get_user_code.html', context)
