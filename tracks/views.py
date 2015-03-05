@@ -2,6 +2,9 @@ from rest_framework import viewsets
 from rest_framework.generics import mixins
 from serializers import DataPointSerializer
 from models import DataPoint
+from django.shortcuts import render
+import string
+import random
 
 
 class ReadOnlyModelViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -38,3 +41,9 @@ class ReadWriteOnlyModelViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet
 class DataPointViewSet(ReadWriteOnlyModelViewSet):
     queryset = DataPoint.objects.all()
     serializer_class = DataPointSerializer
+
+
+def show_user_code(request):
+    this_code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
+    context = {'this_code': this_code}
+    return render(request, 'tracks/get_user_code.html', context)

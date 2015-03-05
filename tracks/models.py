@@ -13,3 +13,4 @@ class DataPoint(models.Model):
 
     def __unicode__(self):
         return str(self.id)
+
