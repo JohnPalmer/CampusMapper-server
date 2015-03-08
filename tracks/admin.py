@@ -13,4 +13,10 @@ class DataPointAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+
+class AllowedIPsAdmin(admin.ModelAdmin):
+    list_display = ('IP_address', 'name',)
+    fields = ('IP_address', 'name',)
+
 admin.site.register(DataPoint, DataPointAdmin)
+admin.site.register(AllowedIPs, AllowedIPsAdmin)

@@ -5,6 +5,8 @@ from models import DataPoint
 from django.shortcuts import render
 import string
 import random
+from rest_framework.decorators import api_view, permission_classes
+from permissions import TracksPermission
 
 
 class ReadOnlyModelViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -37,8 +39,14 @@ class ReadWriteOnlyModelViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet
     pass
 
 
-# for production, change to write only
-class DataPointViewSet(ReadWriteOnlyModelViewSet):
+class DataPointViewSet(WriteOnlyModelViewSet):
+    queryset = DataPoint.objects.all()
+    serializer_class = DataPointSerializer
+
+
+@api_view('GET')
+@permission_classes((TracksPermission, ))
+class ReadDataPointViewSet(ReadOnlyModelViewSet):
     queryset = DataPoint.objects.all()
     serializer_class = DataPointSerializer
 

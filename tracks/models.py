@@ -15,3 +15,10 @@ class DataPoint(models.Model):
     def __unicode__(self):
         return str(self.id)
 
+
+class AllowedIPs(models.Model):
+    IP_address = models.GenericIPAddressField()
+    name = models.CharField(max_length=500)
+
+    def __unicode__(self):
+        return self.name
