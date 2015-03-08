@@ -5,7 +5,6 @@ from models import DataPoint
 from django.shortcuts import render
 import string
 import random
-from rest_framework.decorators import api_view, permission_classes
 from permissions import TracksPermission
 
 
@@ -44,11 +43,10 @@ class DataPointViewSet(WriteOnlyModelViewSet):
     serializer_class = DataPointSerializer
 
 
-@api_view('GET')
-@permission_classes((TracksPermission, ))
 class ReadDataPointViewSet(ReadOnlyModelViewSet):
     queryset = DataPoint.objects.all()
     serializer_class = DataPointSerializer
+    permission_classes = [TracksPermission]
 
 
 def show_user_code(request):
