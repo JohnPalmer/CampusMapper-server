@@ -12,6 +12,10 @@ class DataPoint(models.Model):
     last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
     created = models.DateTimeField(auto_now_add=True, default=datetime.now())
 
+    class Meta:
+        verbose_name = 'data point'
+        verbose_name_plural = 'data points'
+
     def __unicode__(self):
         return str(self.id)
 
@@ -22,3 +26,7 @@ class AllowedIPs(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'allowed IP address'
+        verbose_name_plural = 'allowed IP addresses'
