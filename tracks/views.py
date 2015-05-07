@@ -61,7 +61,7 @@ def show_user_code(request):
 def download_fix_stats(request):
     if request.user.is_authenticated() and 'stats_access' in [group.name for group in request.user.groups.all()]:
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+        response['Content-Disposition'] = 'attachment; filename="fix_stats.csv"'
         writer = csv.writer(response)
         writer.writerow(['user_code', 'n_fixes'])
         fix_counts = DataPoint.objects.filter(type="FIX").annotate(n_fixes=Count('user_code'))
@@ -75,7 +75,7 @@ def download_fix_stats(request):
 def download_reg_stats(request):
     if request.user.is_authenticated() and 'stats_access' in [group.name for group in request.user.groups.all()]:
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+        response['Content-Disposition'] = 'attachment; filename="reg_stats.csv"'
         writer = csv.writer(response)
         writer.writerow(['user_code', 'registration_upload_time'])
         reg = DataPoint.objects.filter(type="REG")
