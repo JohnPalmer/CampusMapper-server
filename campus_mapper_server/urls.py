@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^mobility_mapper_code/', show_user_code, name='show_user_code'),
     url(r'^fix_stats/', download_fix_stats, name='download_fix_stats'),
     url(r'^reg_stats/', download_reg_stats, name='download_reg_stats'),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='auth_login'),
     url(r'^$', show_user_code),
 )
 

@@ -8,7 +8,8 @@ import random
 from permissions import TracksPermission
 from django.db.models import Count
 import csv
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 
 class ReadOnlyModelViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -83,7 +84,7 @@ def download_reg_stats(request):
             writer.writerow([r.user_code, r.created.strftime("%d/%m/%Y")])
         return response
     else:
-        return HttpResponse('no authorization')
+        return HttpResponseRedirect(reverse('auth_login'))
 
 
 
