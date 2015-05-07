@@ -70,7 +70,7 @@ def download_fix_stats(request):
             writer.writerow([u.user_code, u.n_fixes])
         return response
     else:
-        return HttpResponse('no authorization')
+        return HttpResponseRedirect(reverse('auth_login'))
 
 
 def download_reg_stats(request):
