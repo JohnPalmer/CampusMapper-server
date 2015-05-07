@@ -6,6 +6,9 @@ from django.shortcuts import render
 import string
 import random
 from permissions import TracksPermission
+from django.db.models import Count
+import csv
+from django.http import HttpResponse
 
 
 class ReadOnlyModelViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -53,3 +56,34 @@ def show_user_code(request):
     this_code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(7))
     context = {'this_code': this_code}
     return render(request, 'tracks/get_user_code.html', context)
+
+
+def download_fix_stats(request):
+    if request.user.is_authenticated() and 'stats_access' in [group.name for group in request.user.groups.all()]:
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+        writer = csv.writer(response)
+        writer.writerow(['user_code', 'n_fixes'])
+        fix_counts = DataPoint.objects.filter(type="FIX").annotate(n_fixes=Count('user_code'))
+        for u in fix_counts:
+            writer.writerow([u.user_code, u.n_fixes])
+        return response
+    else:
+        return HttpResponse('no authorization')
+
+
+def download_reg_stats(request):
+    if request.user.is_authenticated() and 'stats_access' in [group.name for group in request.user.groups.all()]:
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+        writer = csv.writer(response)
+        writer.writerow(['user_code', 'registration_upload_time'])
+        reg = DataPoint.objects.filter(type="REG")
+        for r in reg:
+            writer.writerow([r.user_code, r.created.strftime("%d/%m/%Y")])
+        return response
+    else:
+        return HttpResponse('no authorization')
+
+
+
