@@ -65,9 +65,9 @@ def download_fix_stats(request):
         response['Content-Disposition'] = 'attachment; filename="fix_stats.csv"'
         writer = csv.writer(response)
         writer.writerow(['user_code', 'n_fixes'])
-        fix_counts = DataPoint.objects.filter(type="FIX").annotate(n_fixes=Count('user_code'))
+        fix_counts = DataPoint.objects.filter(type="FIX").values('user_code').annotate(n_fixes=Count('user_code'))
         for u in fix_counts:
-            writer.writerow([u.user_code, u.n_fixes])
+            writer.writerow([u['user_code'], u['n_fixes']])
         return response
     else:
         return HttpResponseRedirect(reverse('auth_login'))
